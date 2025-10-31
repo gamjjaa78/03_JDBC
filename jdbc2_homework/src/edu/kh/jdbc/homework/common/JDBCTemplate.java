@@ -1,4 +1,4 @@
-package edu.kh.jdbc.common;
+package edu.kh.jdbc.homework.common;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -14,18 +14,8 @@ import java.util.Properties;
 //commit / rollback
 //각종 자원 반환 close()
 
-//*************중요
-//어디서든지 JDBCTemplate 클래스를
-//객체로 만들지않고도 메서드를 이용할 수 있도록 static 공유메모리영역에 올리쟈!
-//모든 메서드를 public static으로 선언*********
-//클래스명.필드명/클래스명.메서드명() 으로 호출
-
-//static (공유) 객체생성없이 필드, 메서드 접근
-//ex Math.random() 등
-
 public class JDBCTemplate {
 
-	// 필드
 	private static Connection conn = null;
 
 	// 메서드
@@ -40,20 +30,11 @@ public class JDBCTemplate {
 			if (conn != null && !conn.isClosed())
 				return conn;
 
-			// 1. Properties 객체 생성
 			Properties prop = new Properties();
-
-			// 2. Properties가 제공하는 메서드 이용해 driver.xml 파일 내용 읽어오기
 			prop.loadFromXML(new FileInputStream("driver.xml"));
-
-			// 3. prop에 저장된 값 이용해 Connection 객체 생성
 			Class.forName(prop.getProperty("driver"));
-			// Class.forName("oracle.jdbc.driver.OracleDriver")
-
 			conn = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("userName"),
 					prop.getProperty("password"));
-
-			// 4.만들어진 Connection 에서 AutoCommit 끄기
 			conn.setAutoCommit(false);
 
 		} catch (Exception e) {
@@ -63,38 +44,30 @@ public class JDBCTemplate {
 		return conn;
 	}
 
-	// 전달받은 커넥션에서 수행한 SQL을 commit 하는 메서드
 	public static void commit(Connection conn) {
 		try {
 			if (conn != null && !conn.isClosed())
 				conn.commit();
-
 		} catch (Exception e) {
 			System.out.println("커밋 중 예외발생");
 			e.printStackTrace();
 		}
 	}
 
-	// 전달받은 커넥션에서 수행한 SQL을 rollback 하는 메서드
-	// @param conn <-메서드의 매개변수 이름이 conn이며, 그 의미는 ‘닫을 DB 연결 객체
 	public static void rollback(Connection conn) {
 		try {
 			if (conn != null && !conn.isClosed())
 				conn.rollback();
-
 		} catch (Exception e) {
 			System.out.println("롤백 중 예외발생");
 			e.printStackTrace();
 		}
 	}
 
-	// Connection, Statement(PreparedStatement), ResultSet
-	// 전달받은 커넥션을 close(자원반환)하는 메서드
 	public static void close(Connection conn) {
 		try {
 			if (conn != null && !conn.isClosed())
 				conn.close();
-
 		} catch (Exception e) {
 			System.out.println("커넥션 close()중 예외발생");
 			e.printStackTrace();
@@ -115,8 +88,6 @@ public class JDBCTemplate {
 		}
 	}
 
-	// 전달받은 ResultSet을 close()하는 메서드
-	// @param rs
 	public static void close(ResultSet rs) {
 		try {
 			if (rs != null && !rs.isClosed())

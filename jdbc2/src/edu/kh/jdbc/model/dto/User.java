@@ -17,28 +17,18 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor //기본생성자
-@AllArgsConstructor //모든 매개변수가 있는 생성자
+@NoArgsConstructor // 기본생성자
+@AllArgsConstructor // 모든 매개변수가 있는 생성자
 @ToString
 public class User {
+
 	private int userNo;
 	private String userId;
 	private String userPw;
 	private String userName;
 	private String enrollDate;
-	//java.sql.Date 타입이 아니라 String으로 받았는지?
-	//개발자 마음, DB조회 시 날짜데이터를 원하는 형태의 문자열로 변환해서 조회할 예정
-	//->TO_CHAR() 이용시-> 2025년 10월 28일
+	// java.sql.Date 타입이 아니라 String으로 받았는지?
+	// 개발자 마음, DB조회 시 날짜데이터를 원하는 형태의 문자열로 변환해서 조회할 예정
+	// ->TO_CHAR() 이용시-> 2025년 10월 28일
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
